@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { API_PATHS } from "../api/apipath";
@@ -16,16 +16,10 @@ function AddTask() {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const isEditMode = Boolean(id);
+  const isEditMode = !!id;
 
-  // Fetch task for edit
-  useEffect(() => {
-    if (isEditMode) {
-      fetchTask();
-    }
-  }, [id]);
-
-  const fetchTask = async () => {
+  // Fetch task (fixed with useCallback)
+  const fetchTask = useCallback(async () => {
     try {
       const token = localStorage.getItem("token");
 
@@ -47,13 +41,20 @@ function AddTask() {
           ? task.dueDate.split("T")[0]
           : "",
       });
-
     } catch (error) {
       console.error(error);
       alert("Failed to fetch task");
     }
-  };
+  }, [id]);
 
+  // useEffect fixed
+  useEffect(() => {
+    if (isEditMode) {
+      fetchTask();
+    }
+  }, [fetchTask, isEditMode]);
+
+  // Handle input changes
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -61,6 +62,7 @@ function AddTask() {
     });
   };
 
+  // Submit form
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -95,15 +97,13 @@ function AddTask() {
       }
 
       navigate("/dashboard");
-
     } catch (error) {
       console.error(error);
 
       alert(
         error.response?.data?.message ||
-        "Something went wrong"
+          "Something went wrong"
       );
-
     } finally {
       setLoading(false);
     }
@@ -111,17 +111,14 @@ function AddTask() {
 
   return (
     <div className="add-task-container">
-      <form
-        className="add-task-form"
-        onSubmit={handleSubmit}
-      >
+      <form className="add-task-form" onSubmit={handleSubmit}>
         <h2>
           {isEditMode ? "Edit Task" : "Create Task"}
         </h2>
 
+        {/* Title */}
         <div className="form-group">
           <label>Task Title</label>
-
           <input
             type="text"
             name="title"
@@ -132,9 +129,9 @@ function AddTask() {
           />
         </div>
 
+        {/* Description */}
         <div className="form-group">
           <label>Description</label>
-
           <textarea
             name="description"
             placeholder="Enter task description"
@@ -144,18 +141,19 @@ function AddTask() {
           />
         </div>
 
+        {/* Due Date */}
         <div className="form-group">
           <label>Due Date</label>
-
           <input
-  type="date"
-  name="dueDate"
-  value={formData.dueDate}
-  onChange={handleChange}
-  min={new Date().toISOString().split("T")[0]}
-/>
+            type="date"
+            name="dueDate"
+            value={formData.dueDate}
+            onChange={handleChange}
+            min={new Date().toISOString().split("T")[0]}
+          />
         </div>
 
+        {/* Submit */}
         <button
           type="submit"
           className="submit-btn"
