@@ -17,7 +17,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:3000",
-      "task-manager-rouge-theta-35.vercel.app"
+      "https://task-manager-rouge-theta-35.vercel.app"
     ],
     credentials: true,
   })
