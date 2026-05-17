@@ -24,6 +24,7 @@ function Register() {
         API_PATHS.AUTH.REGISTER,
         payload
       );
+      console.log(data);
 
       navigate('/login');
 
