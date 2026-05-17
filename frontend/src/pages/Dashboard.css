@@ -1,0 +1,68 @@
+.dashboard-container {
+  padding: 30px;
+}
+
+.dashboard-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.dashboard-topbar h2 {
+  margin: 0;
+}
+
+.logout-btn {
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.logout-btn:hover {
+  background: #dc2626;
+}
+
+.dashboard-toolbar {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 25px;
+}
+
+.filter-dropdown {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.add-task-btn,
+.create-task-btn {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.add-task-btn:hover,
+.create-task-btn:hover {
+  background: #1d4ed8;
+}
+
+.task-list {
+  display: grid;
+  gap: 20px;
+}
+
+.loading,
+.no-tasks,
+.error-message {
+  text-align: center;
+  margin-top: 50px;
+}
