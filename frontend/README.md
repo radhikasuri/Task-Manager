@@ -1,70 +1,242 @@
-# Getting Started with Create React App
+# Full Stack Task Manager Application
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+---
 
-## Available Scripts
+## Project Overview
 
-In the project directory, you can run:
+This is a full-stack Task Manager application that allows users to register, login, and manage their daily tasks efficiently. The application supports authentication and full CRUD (Create, Read, Update, Delete) operations.
 
-### `npm start`
+The project is designed with a clean architecture, separation of concerns, and reusable components.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Tech Stack
 
-### `npm test`
+### Frontend
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+* React.js
+* React Router DOM
+* Axios
+* Context API
 
-### `npm run build`
+### Backend
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+* Node.js
+* Express.js
+* MongoDB (or JSON Server)
+* JWT Authentication
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+---
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Features
 
-### `npm run eject`
+* User Registration & Login
+* JWT-based Authentication
+* Create, Read, Update, Delete Tasks
+* Task Filtering (All / Completed / Pending)
+* Search Functionality
+* Reusable Components
+* Environment-based Configuration
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+---
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Project Structure
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Frontend
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```
+frontend/
+ ├── src/
+ │   ├── api/              # API configuration & endpoints
+ │   ├── components/       # Reusable UI components (TaskCard)
+ │   ├── context/          # Global state (AuthContext)
+ │   ├── pages/            # Pages (Login, Register, Dashboard, AddTask)
+ │   ├── App.js            # Routing
+ │   └── index.js          # Entry point
+```
 
-## Learn More
+### Backend
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```
+backend/
+ ├── routes/               # API routes
+ ├── controllers/          # Business logic
+ ├── models/               # Database schemas
+ ├── middleware/           # Auth middleware
+ └── server.js             # Entry point
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+---
 
-### Code Splitting
+## Setup Instructions
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### 1. Clone Repository
 
-### Analyzing the Bundle Size
+```
+git clone <git@github.com:radhikasuri/Task-Manager.git>
+cd task-manager
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+---
 
-### Making a Progressive Web App
+### 2. Setup Backend
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+```
+cd backend
+npm install
+npm start
+```
 
-### Advanced Configuration
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+### 3. Setup Frontend
 
-### Deployment
+```
+cd frontend
+npm install
+npm start
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+---
 
-### `npm run build` fails to minify
+##  Environment Variables
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Create `.env` file in frontend:
+
+```
+REACT_APP_API_URL=http://localhost:5000
+```
+
+---
+
+## How to Use the Application
+
+1. Register a new account using the Signup page
+2. Login with your credentials
+3. After login, you will be redirected to the Dashboard
+4. Click on **"Add Task"** to create a new task
+5. Edit or delete tasks using action buttons
+6. Use filter dropdown (All / Completed / Pending)
+7. Use search to find tasks quickly
+
+---
+
+##  Application Flow
+
+```
+User → Register → Login → Receive JWT Token
+→ Store Token in localStorage
+→ Perform API Calls with Token
+
+Dashboard → Fetch Tasks → Display Tasks
+→ Filter / Search / Delete
+
+AddTask → Create / Update Task → API Call → Backend → Database
+```
+
+---
+
+##  Code Flow Explanation
+
+### Authentication Flow
+
+* User logs in → API call to backend
+* Backend validates user → generates JWT token
+* Token sent to frontend
+* Stored in localStorage
+* Used in all API requests
+
+```
+Authorization: Bearer <token>
+```
+
+---
+
+### Task Flow
+
+#### Fetch Tasks
+
+* Dashboard calls API → GET /tasks
+* Backend returns task list
+* Stored in React state → rendered in UI
+
+#### Create Task
+
+* AddTask form → POST /tasks
+* Backend saves task → returns response
+
+#### Update Task
+
+* Dynamic route `/updatetask/:id`
+* Fetch existing task → pre-fill form
+* PUT request updates task
+
+#### Delete Task
+
+* Click delete → DELETE /tasks/:id
+* Task removed from UI state
+
+---
+
+## API Endpoints
+
+### Auth APIs
+
+* POST `/register` → Register user
+* POST `/login` → Login user
+
+### Task APIs
+
+* POST `/tasks` → Create task
+* GET `/tasks` → Get all tasks
+* GET `/tasks/:id` → Get single task
+* PUT `/tasks/:id` → Update task
+* DELETE `/tasks/:id` → Delete task
+
+---
+
+## Authentication Details
+
+* JWT-based authentication is implemented
+* Token is stored in localStorage
+* Sent in every API request header
+* Backend middleware validates token before allowing access
+
+---
+
+##  Architecture Overview
+
+```
+Frontend (React UI)
+        ↓
+API Layer (Axios)
+        ↓
+Backend (Express Server)
+        ↓
+Database (MongoDB / JSON Server)
+        ↓
+Response → Frontend UI Update
+```
+
+---
+
+##  Key Design Decisions
+
+* Used **Context API** for global authentication instead of Redux for simplicity
+* Reused **AddTask component** for both create and update functionality
+* Centralized API handling using Axios
+* Modular folder structure for scalability and maintainability
+* Dynamic routing for task editing
+
+---
+
+
+## Conclusion
+
+This project demonstrates full-stack development capabilities including frontend architecture, backend API design, authentication, and clean code practices. It is structured for scalability and maintainability.
+
+---
+
+## 👩‍💻 Author
+
+Radhika Suri
