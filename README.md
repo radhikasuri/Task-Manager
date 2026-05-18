@@ -243,6 +243,6 @@ This project demonstrates full-stack development capabilities including frontend
 
 ---
 
-## 👩‍💻 Author
+## Author
 
 Radhika Suri
